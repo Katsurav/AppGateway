@@ -1,0 +1,7 @@
+runtime: go120
+
+service: ttec-vk-site
+
+handlers:
+- url: /.*
+  script: auto

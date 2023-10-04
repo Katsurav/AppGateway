@@ -1,0 +1,224 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap");
+
+body {
+  background-image: url('./bg.png'); /* Replace 'path/to/your-image.jpg' with the actual path to your image file */
+  background-size: cover; /* This property scales the image to cover the entire background */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed; /* Keeps the background fixed while scrolling */
+  background-color: rgba(255, 255, 255, 0.5); /* 0.5 represents 50% opacity */
+  /* You can also adjust other background properties as needed, such as background-position, background-color, etc. */
+}
+
+*,
+body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+#mainContainer {
+    min-height: 79vh;
+}
+
+.form-items {
+    /* border: 2px solid #d5d3d3; */
+    padding: 40px;
+    display: inline-block;
+    width: 100%;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    text-align: left;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+h3 {
+    color: #5f5959;
+    text-align: left;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+h3.form-title {
+    margin-bottom: 30px;
+}
+
+p {
+    color: #5f5959;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 20px;
+    margin-bottom: 30px;
+}
+
+label,
+.was-validated .form-check-input:invalid ~ .form-check-label,
+.was-validated .form-check-input:valid ~ .form-check-label {
+    color: #5f5959;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 9px 20px;
+    text-align: left;
+    border: 0;
+    outline: 0;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8d8d8d;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+}
+
+.btn-primary {
+    background-color: #6c757d;
+    outline: none;
+    border: 0px;
+    box-shadow: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #495056;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+textarea {
+    position: static !important;
+    width: 100%;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-align: left;
+    background-color: #fff;
+    border: 0;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8d8d8d;
+    outline: none;
+    resize: none;
+    height: 120px;
+    -webkit-transition: none;
+    transition: none;
+    margin-bottom: 14px;
+}
+
+textarea:hover,
+textarea:focus {
+    border: 0;
+    background-color: #ebeff8;
+    color: #8d8d8d;
+}
+
+.mv-up {
+    margin-top: -9px !important;
+    margin-bottom: 8px !important;
+}
+
+.invalid-feedback {
+    color: #ff606e;
+}
+
+.valid-feedback {
+    color: #2acc80;
+}
+
+.form-check-input:checked {
+    background-color: #2acc80;
+    border-color: #2acc80;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgb(42 204 128 / 25%);
+}
+
+#answer .rounded {
+    border-radius: 15px !important;
+    color: #070809;
+}
+
+#citationDiv .rounded {
+    border-radius: 15px !important;
+}
+
+.header {
+    background-color: #2a3a42;
+    color: white;
+    padding: 12px;
+}
+
+.headerTitle {
+    color: white;
+    margin-right: 50px;
+    font-size: 25px;
+    font-weight: 450;
+}
+
+.img-fluid {
+    width: 70px;
+
+    /* margin: 10px 30px; */
+    margin-left: 50px;
+}
+
+.footer {
+    background-color: #2a3a42;
+    color: white !important;
+}
+
+.footerText {
+    color: white;
+}
+
+/* loader */
+
+#overlay {
+    background: #ffffff;
+    color: #666666;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    float: left;
+    text-align: center;
+    padding-top: 25%;
+    opacity: 0.8;
+}
+button {
+    margin: 10px;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+.spinner {
+    margin: 0 auto;
+    height: 64px;
+    width: 64px;
+    animation: rotate 0.8s infinite linear;
+    border: 5px solid firebrick;
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.citationButton {
+    margin: 0;
+}

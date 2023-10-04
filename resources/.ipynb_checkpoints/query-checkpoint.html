@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Viking - Retrieval Augmented Generation</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+  />
+  <link rel="stylesheet" href="./style.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="./script.js"></script>
+
+</head>
+<body>
+
+<style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.0); /* Adjust the alpha (fourth value) to control transparency */
+  }
+
+  .header .text-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+    
+  .header span {
+    font-size: 24px; /* You can adjust the font size to your desired value */
+  }
+    
+  .header img {
+    width: 200px; /* Adjust the width to make the images larger */
+    height: auto; /* Maintain aspect ratio */
+  }
+    
+    /* Style for the checkbox */
+    .btn-check:checked + .btn-outline-secondary::before {
+        background-color: #333; /* Change this color to make it darker */
+        border-color: #333; /* Change this color to match the background color */
+    }
+
+    /* Style for the label text when checkbox is checked */
+    .btn-check:checked + .btn-outline-secondary {
+        color: #fff; /* Change this color to make the text white or another contrasting color */
+        font-weight: bold; /* Make the font bold */
+        border-width: 2px; /* Increase the border thickness */
+    }
+
+    /* Style for the label text when checkbox is not checked */
+    .btn-check:not(:checked) + .btn-outline-secondary {
+        color: #333; /* Change this color to make the text darker */
+        font-weight: bold; /* Make the font bold */
+        border-width: 2px; /* Increase the border thickness */
+    }
+</style>
+
+<header class="header">
+  <img src="./viking.png" class="img-fluid" alt="" align="left" />
+</header>
+
+<div class="container" id="mainContainer">
+  <div class="row m-2 mt-4">
+    <div class="col-12">
+      <div class="form-items shadow">
+        <h3>Welcome to Viking Brochure Knowledge Portal</h3>
+        <div class="requires-validation" novalidate>
+          <div class="col-12 mt-4">
+            <input
+                    class="form-control shadow"
+                    type="text"
+                    name="questionaire"
+                    placeholder="Type in here to ask any question you have"
+                    required
+                    id="query"
+            />
+            <div class="valid-feedback mt-2 pt-1 ps-2">Field is valid!</div>
+            <div class="invalid-feedback mt-2 pt-1 ps-2">
+              Field cannot be blank!
+            </div>
+          </div>
+
+          <p> </p>
+          <b> </b>
+          <div class="col-md-6">
+            <input
+                    type="checkbox"
+                    name="prompts"
+                    id="prompts"
+                    autocomplete="off"
+                    required
+                    value=0
+                    onchange="CustomPromptsValueChaned(this)"
+            />
+            <label for="prompts">Use Custom Prompts</label>
+          </div>
+
+          <div id="llmPrompts" name-="llmPrompts" style="display: none">
+            <div class="col-12 mt-4">
+              <input
+                      class="form-control shadow"
+                      type="text"
+                      name="PRE-PROMPT"
+                      placeholder="Please specify the role of the model (Default: !Image you are a Support Bot.)"
+                      id="preprompt"
+              />
+            </div>
+
+            <div class="col-12 mt-4">
+              <input
+                      class="form-control shadow"
+                      type="text"
+                      name="POST-PROMPT"
+                      placeholder="Please specify your requirement (Default: !Please summarize your findings.)"
+                      id="postprompt"
+              />
+            </div>
+
+          </div>
+
+          <div class="col-12 mt-4">
+            <div class="row">
+              <div class="col-md-3">
+                <label class="mb-3 mr-1" for="preferredLLM"
+                >Please select your preferred LLM :
+                </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                        type="checkbox"
+                        class="btn-check"
+                        name="LLM"
+                        id="palm"
+                        autocomplete="off"
+                        required
+                        value="palm"
+                />
+                <label class="btn btn-sm btn-outline-secondary w-100 shadow" for="palm">Google Palm</label>
+              </div>
+
+              <div class="col-md-3 mt-3 mt-md-0">
+                <input
+                        type="checkbox"
+                        class="btn-check"
+                        name="LLM"
+                        id="davinci"
+                        autocomplete="off"
+                        required
+                        value="text-bison"
+                />
+                <label class="btn btn-sm btn-outline-secondary w-100 shadow" for="davinci">Google Text Bison</label>
+              </div>
+                
+              <div class="col-md-3 mt-3 mt-md-0">
+                <input
+                        type="checkbox"
+                        class="btn-check"
+                        name="LLM"
+                        id="gpt"
+                        autocomplete="off"
+                        required
+                        value="gpt-35-turbo"
+                />
+                <label class="btn btn-sm btn-outline-secondary w-100 shadow" for="gpt">Azure GPT 3.5</label>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-button mt-3">
+            <button
+                    id="askquestion"
+                    class="btn btn-primary shadow btn-lg"
+                    onclick="functionToAsk()">
+              Ask
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="llmanswer">
+
+<div class="row m-2 mt-4 mr-4" id="answer" style="display: none">
+<div class="col-md-12">
+<div class="card shadow p-3 bg-body rounded">
+<div class="card-body">
+  <span> </span>
+</div>
+</div>
+</div>
+</div>
+  </div>
+
+  <div class="row m-2 mt-4" id="citationDiv" style="display: none">
+    <div class="col-md-12">
+      <div class="card shadow p-3 bg-body rounded">
+        <div class="card-body">
+          <div id="citation"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="overlay" style="display: none">
+  <div class="spinner"></div>
+  <br />
+  Loading...
+</div>
+
+<footer class="footer">
+  <div
+          class="d-flex justify-content-between py-4 my-4 mb-0 pb-0 border-top copyRightFooterText"
+  >
+    <p class="text-center w-100 footerText">
+      © 2023 TTEC, All rights reserved.
+    </p>
+  </div>
+</footer>
+<!-- partial -->
+</body>
+</html>

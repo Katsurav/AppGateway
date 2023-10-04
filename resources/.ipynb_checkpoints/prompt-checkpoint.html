@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <title>KIA - Advanced Query / Response</title>
+</head>
+<body>
+
+<div id="question">
+  <span>Please enter your question below</span>
+  <p></p>
+  <textarea rows = "3" cols = "60" name = "query" id="query"></textarea><br>
+  <p> </p>
+
+  <span>Please enter your PRE-PROMPT below (! clears all else appends default)</span>
+  <p></p>
+  <textarea rows = "3" cols = "60" name = "query" id="preprompt"></textarea><br>
+  <p> </p>
+
+  <span>Please enter your POST-PROMPT below (! clears all else appends default)</span>
+  <p></p>
+  <textarea rows = "3" cols = "60" name = "query" id="postprompt"></textarea><br>
+  <p> </p>
+
+  <fieldset style="width:270px">
+    <legend>Please select your preferred LLM</legend>
+    <div>
+      <input type="radio" id="palm" name="LLM" value="palm" checked/>
+      <label for="palm">Palm</label>
+
+      <input type="radio" id="gpt" name="LLM" value="gpt-35-turbo" />
+      <label for="gpt">GPT 3.5</label>
+
+      <input type="radio" id="davinci" name="LLM" value="text-davinci-003" />
+      <label for="davinci">Davinci</label>
+    </div>
+  </fieldset>
+  </p>
+  <button onclick="functionToAsk()">Ask</button>
+  <p> </p>
+  <p> </p>
+  <b> </b>
+
+  <div id="answer" class="row" style="border:1px solid black;">
+    <div id="llmanswer" class="row">
+    </div>
+  </div>
+
+</div>
+
+</body>
+
+<script>
+
+  function functionShow() {
+    var x = document.getElementById("llmanswer");
+    x.style.display = "block";
+    //var elem = document.getElementById("querybutton");
+    //elem.value = "Ask";
+
+  }
+
+  function functionHide() {
+    var x = document.getElementById("llmanswer");
+    x.style.display = "none";
+    //var elem = document.getElementById("querybutton");
+    //elem.value = "Running";
+  }
+
+  function functionToAsk() {
+    emptydiv = "<span> </span>"
+    document.getElementById("llmanswer").innerHTML = emptydiv;
+
+    functionHide();
+
+    dd = document.getElementById("query");
+
+    var myLLM = $('input[name="LLM"]:checked').val();
+
+    var preprompt = $("#preprompt").val()
+    var postprompt = $("#postprompt").val()
+
+    var request = {};
+    request.query = dd.value;
+    request.engines = [ myLLM ];
+    request.pre = preprompt;
+    request.post = postprompt;
+
+    jsondata = JSON.stringify(request);
+
+    var url = "http://localhost:8080/query";
+    var url2 = "https://ttec-vk-site-dot-insightsteamsandbox.uc.r.appspot.com/query";
+
+    var success = false;
+    var Response = {};
+
+    $.ajax({
+      url: url2,
+      crossDomain: true,
+      method: 'POST',
+      contentType: 'application/json',
+      data: jsondata,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      dataType: 'json',
+      type: 'POST',
+      async: true,
+      success: function (Data, textStatus, jqXHR) {
+        success = true;
+        Response = Data;
+        DisplayData(Response);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        DisplayError(errorThrown);
+      }
+    });
+
+  }
+
+  function DisplayData(Response) {
+    var newdiv = "";
+
+    Response.results.forEach(element => {
+      // <div className="list-group-item" data-id="X6">Item 6</div>
+      // span style="white-space: pre;"
+      var nl = '<div style="border:1px solid black;">'
+      nl = nl + '<span style="white-space: pre; " data-id="';
+      nl = nl + element.llmname + '">' + element.llmcompute + 'ms </p>' + element.llmresponse;
+      nl = nl + '</p></span>';
+      nl = nl + '</div><p> </p>';
+
+      newdiv = newdiv + nl;
+    });
+    document.getElementById("llmanswer").innerHTML = newdiv;
+
+    functionShow();
+  }
+
+  function DisplayError(err) {
+    document.getElementById("llmanswer").innerHTML = "Error";
+    functionShow();
+  }
+
+</script>
+
+</html>
